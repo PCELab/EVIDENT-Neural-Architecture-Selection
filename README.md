@@ -66,7 +66,7 @@ For each patient-wise fold, the script trains every candidate architecture in th
 
 For each held-out subject of the fold, the script takes the architecture with the highest log evidence from the population run's `level_summary.csv`, warm-starts it from that run's posterior as an informative prior, adapts it on the subject's first four days of data, and validates 60-minute-ahead forecasts on the remaining day.
 
-### 4. Optuna search on OhioT1DM
+### 4. Optuna search
 
 [`codes/Optuna_search/optuna_tcn_ohio.py`](codes/Optuna_search/optuna_tcn_ohio.py) runs the same evidence objective inside an Optuna study, over architectures grouped into parameter-count categories `C1`–`C8`. 
 
