@@ -22,8 +22,7 @@ EVIDENT-Neural-Architecture-Selection/
 │   ├── Bergman/
 │   │   └── Bergman-synthetic.csv              
 │   └── ECG/
-│       └── ecg_patient_01.csv ... ecg_patient_06.csv 
-├── papers/         
+│       └── ecg_patient_01.csv ... ecg_patient_06.csv         
 ├── LICENSE
 └── README.md
 ```
