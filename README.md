@@ -10,8 +10,7 @@ The Python files are standalone experiment scripts rather than an installed pack
 EVIDENT-Neural-Architecture-Selection/
 ├── codes/
 │   ├── Bergman_glucose_model/
-│   │   ├── bergman_final.m                       # synthetic T1D glucose simulator (MATLAB)
-│   │   └── t1d_basal_bolus_meal_aligned.csv      # included 7-day realization
+│   │   └── bergman_final.m                       # synthetic T1D glucose simulator (MATLAB)
 │   ├── Bayesian_TCN/
 │   │   ├── Bayesian_TCN_population_training.py   # evidence-based architecture search
 │   │   └── Bayesian_TCN_validation.py            # subject-specific adaptation + testing
@@ -19,9 +18,12 @@ EVIDENT-Neural-Architecture-Selection/
 │   │   └── optuna_tcn_ohio.py                    # Optuna-driven evidence search (OhioT1DM)
 │   └── Bayesian_LSTM/
 │       └── bayes_lstm_ecg.py                     # Bayesian LSTM ECG forecasting
+├── Data/
+│   ├── Bergman/
+│   │   └── Bergman-synthetic.csv                 # included 7-day simulator realization
+│   └── ECG/
+│       └── ecg_patient_01.csv ... ecg_patient_06.csv   # synthetic ECG records
 ├── papers/            # reference literature, grouped by topic
-├── reports/           # manuscript sources, figures, and submission material
-├── slides/            # proposal-defense slides (LaTeX sources and figures)
 ├── LICENSE
 └── README.md
 ```
@@ -30,10 +32,10 @@ EVIDENT-Neural-Architecture-Selection/
 
 | Data | Included in repo |
 |---|---|
-|  Bergman in silico patient data | `bergman_final.m` code included for reproducibility  |
+|  Bergman in silico patient data | yes — `Data/Bergman/` (plus `bergman_final.m` to regenerate) |
 |  UVA/Padova software data | no |
 |  OhioT1DM patients data | no |
-|  Synthetic ECG data | Paper included for reproducibility |
+|  Synthetic ECG data | yes — `Data/ECG/` (6 records) |
 
 
 ## End-to-end workflow
@@ -42,7 +44,7 @@ EVIDENT-Neural-Architecture-Selection/
 
 [`codes/Bergman_glucose_model/bergman_final.m`](codes/Bergman_glucose_model/bergman_final.m) simulates glucose dynamics with a type 1 diabetes Bergman minimal model, a stomach/intestine meal-absorption model, and external basal-plus-bolus insulin delivery. Endogenous glucose-stimulated insulin secretion is disabled, consistent with the type 1 diabetes setting. The system is solved with `ode45` (absolute and relative tolerances `1e-8`) and sampled at one-minute intervals.
 
-This writes `t1d_basal_bolus_meal_aligned.csv`:
+This writes `Data/Bergman/Bergman-synthetic.csv`:
 
 | Column | Description |
 |---|---|
@@ -82,9 +84,6 @@ It splits the record 80/20 chronologically, draws 100 posterior samples at test 
 ## Supporting material
 
 - `papers/` — reference literature grouped by topic: `tcn`, `enc_decoder`, `architecture_search`, `Machine_learning_models`, `Blood_glucose_prediction`, `ECG_data`.
-- `reports/manuscript_evident/` — LaTeX sources, references, and figures for the manuscript.
-- `reports/neuralnetworks_submit_6_26/` — cover letter and highlights for the journal submission.
-- `slides/Azharul_proposal_defense/` — proposal-defense slides with their LaTeX template and figures.
 
 ## License
 
