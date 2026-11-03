@@ -76,9 +76,6 @@ For a chosen capacity category, the script searches every feasible architecture 
 
 [`codes/Bayesian_LSTM/bayes_lstm_ecg.py`](codes/Bayesian_LSTM/bayes_lstm_ecg.py) applies the same variational machinery to a Bayesian LSTM that forecasts 0.25 s of ECG (64 samples at 256 Hz) from the preceding 1 s of ECG plus beat-phase, RR-interval, and respiration-belt channels.
 
-## Supporting material
-
-- `papers/` — reference literature grouped by topic: `tcn`, `enc_decoder`, `architecture_search`, `Machine_learning_models`, `Blood_glucose_prediction`, `ECG_data`.
 
 ## License
 
