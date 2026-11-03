@@ -10,20 +10,20 @@ The Python files are standalone experiment scripts rather than an installed pack
 EVIDENT-Neural-Architecture-Selection/
 ├── codes/
 │   ├── Bergman_glucose_model/
-│   │   └── bergman_final.m                       # synthetic T1D glucose simulator (MATLAB)
+│   │   └── bergman_final.m                      
 │   ├── Bayesian_TCN/
-│   │   ├── Bayesian_TCN_population_training.py   # evidence-based architecture search
-│   │   └── Bayesian_TCN_validation.py            # subject-specific adaptation + testing
+│   │   ├── Bayesian_TCN_population_training.py   
+│   │   └── Bayesian_TCN_validation.py           
 │   ├── Optuna_search/
-│   │   └── optuna_tcn_ohio.py                    # Optuna-driven evidence search (OhioT1DM)
+│   │   └── optuna_tcn_ohio.py                    
 │   └── Bayesian_LSTM/
-│       └── bayes_lstm_ecg.py                     # Bayesian LSTM ECG forecasting
+│       └── bayes_lstm_ecg.py                 
 ├── Data/
 │   ├── Bergman/
-│   │   └── Bergman-synthetic.csv                 # included 7-day simulator realization
+│   │   └── Bergman-synthetic.csv              
 │   └── ECG/
-│       └── ecg_patient_01.csv ... ecg_patient_06.csv   # synthetic ECG records
-├── papers/            # reference literature, grouped by topic
+│       └── ecg_patient_01.csv ... ecg_patient_06.csv 
+├── papers/         
 ├── LICENSE
 └── README.md
 ```
@@ -42,7 +42,7 @@ EVIDENT-Neural-Architecture-Selection/
 
 ### 1. Generate synthetic type 1 diabetes data
 
-[`codes/Bergman_glucose_model/bergman_final.m`](codes/Bergman_glucose_model/bergman_final.m) simulates glucose dynamics with a type 1 diabetes Bergman minimal model, a stomach/intestine meal-absorption model, and external basal-plus-bolus insulin delivery. Endogenous glucose-stimulated insulin secretion is disabled, consistent with the type 1 diabetes setting. The system is solved with `ode45` (absolute and relative tolerances `1e-8`) and sampled at one-minute intervals.
+[`codes/Bergman_glucose_model/bergman_final.m`](codes/Bergman_glucose_model/bergman_final.m) simulates glucose dynamics with a type 1 diabetes Bergman minimal model, a stomach/intestine meal-absorption model, and external basal-plus-bolus insulin delivery.
 
 This writes `Data/Bergman/Bergman-synthetic.csv`:
 
@@ -51,12 +51,9 @@ This writes `Data/Bergman/Bergman-synthetic.csv`:
 | `Time` | Minutes from the start of the simulation |
 | `Glucose` | Simulated blood glucose concentration in mg/dL |
 | `Insulin` | Plasma insulin concentration in mU/L |
-| `MealOnset` | `1` on the minute a meal begins, `0` otherwise |
 | `MealSize` | Meal mass in mg at the event row and `0` otherwise |
 
-The included CSV is the default seven-day realization: 10,081 data rows and 21 meal events.
-
-### 2. Population training and evidence-based architecture search
+### 2. Evidence-based architecture search
 
 [`codes/Bayesian_TCN/Bayesian_TCN_population_training.py`](codes/Bayesian_TCN/Bayesian_TCN_population_training.py) trains and ranks Bayesian encoder-decoder TCNs (Bayes-by-backprop `Conv1d` layers) across a population of subjects.
 
@@ -69,7 +66,7 @@ For each patient-wise fold, the script trains every candidate architecture in th
 
 For each held-out subject of the fold, the script takes the architecture with the highest log evidence from the population run's `level_summary.csv`, warm-starts it from that run's posterior as an informative prior, adapts it on the subject's first four days of data, and validates 60-minute-ahead forecasts on the remaining day.
 
-### 4. Optuna baseline search on OhioT1DM
+### 4. Optuna search on OhioT1DM
 
 [`codes/Optuna_search/optuna_tcn_ohio.py`](codes/Optuna_search/optuna_tcn_ohio.py) runs the same evidence objective inside an Optuna study, over architectures grouped into parameter-count categories `C1`–`C8`. 
 
