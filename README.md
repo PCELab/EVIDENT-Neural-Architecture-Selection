@@ -37,6 +37,33 @@ EVIDENT-Neural-Architecture-Selection/
 |  Synthetic ECG data | yes — `Data/ECG/` (6 records) |
 
 
+## Installation and execution
+
+Requires Python 3 and MATLAB for Bergman data generation. From the repository root, install the Python dependencies:
+
+```bash
+python -m pip install numpy pandas matplotlib scikit-learn torch optuna
+```
+
+Before running provide the relevant data for each code. Run the following commands from the repository root:
+
+```bash
+# Generate synthetic Bergman glucose data (requires MATLAB).
+matlab -batch "run('codes/Bergman_glucose_model/bergman_final.m')"
+
+# Train population Bayesian TCNs and rank candidate architectures by evidence.
+python codes/Bayesian_TCN/Bayesian_TCN_population_training.py
+
+# Adapt the population-selected TCN and validate on held-out subjects.
+python codes/Bayesian_TCN/Bayesian_TCN_validation.py
+
+# Run the evidence-based Optuna architecture search.
+python codes/Optuna_search/optuna_tcn_ohio.py
+
+# Train and evaluate the Bayesian LSTM using the configured ECG CSV file.
+python codes/Bayesian_LSTM/bayes_lstm_ecg.py --csv Data/ECG/ecg_patient_06.csv
+```
+
 ## End-to-end workflow
 
 ### 1. Generate synthetic type 1 diabetes data
@@ -75,6 +102,10 @@ For a chosen capacity category, the script searches every feasible architecture 
 
 [`codes/Bayesian_LSTM/bayes_lstm_ecg.py`](codes/Bayesian_LSTM/bayes_lstm_ecg.py) applies the same variational machinery to a Bayesian LSTM that forecasts 0.25 s of ECG (64 samples at 256 Hz) from the preceding 1 s of ECG plus beat-phase, RR-interval, and respiration-belt channels.
 
+
+## Acknowledgments
+
+This work was supported by the National Science Foundation under Award No. DMS-2533946.
 
 ## License
 
